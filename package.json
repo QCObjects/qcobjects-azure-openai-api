@@ -1,0 +1,93 @@
+{
+    "name": "qcobjects-azure-openai-api",
+    "private": false,
+    "version": "1.0.0",
+    "description": "QCObjects OpenAI API Handler",
+    "main": "public/js/index.cjs",
+    "module": "public/js/index.mjs",
+    "type": "commonjs",
+    "types": "src/**/*.d.ts",
+    "exports": {
+        ".": {
+            "require": "./public/js/index.cjs",
+            "import": "./public/js/index.mjs"
+        },
+        "./components": {
+            "default": "./public/static/js/packages/components/index.cjs",
+            "types": "./types/index.d.ts"
+        },
+        "./controllers": "./public/static/js/packages/controllers/index.cjs",
+        "./services": "./public/static/js/packages/services/index.cjs",
+        "./package.json": "./package.json"
+    },
+    "scripts": {
+        "test": "npm run lint",
+        "lint": "(npx eslint \"src/**/*.ts\" --fix --ext ts)",
+        "sync": "git add . && git commit -am ",
+        "preversion": "npm i --upgrade && npm test",
+        "postversion": "git push && git push --tags",
+        "v-patch": "qcobjects v-patch",
+        "v-minor": "qcobjects v-minor",
+        "v-major": "qcobjects v-major",
+        "qcobjects": "qcobjects",
+        "cli": "qcobjects",
+        "build:static": "npx qcobjects publish:static src/ build/ --exclude js --exclude=.DS_Store",
+        "build:ts": "npm test && npx tsc",
+        "build:ts-types": "npx tsc --project tsconfig.d.json",
+        "build": "npm run build:ts-types && npm run build:ts && npm run build:static && npm run publish:static",
+        "publish:static": "(npx qcobjects publish:static build/ public/ --exclude=.DS_Store)",
+        "prepare": "node -e \"if(!require('fs').existsSync('.git')){process.exit(0)}\" || npx -y husky install",
+        "prestart": "npm run publish:web",
+        "cli:help": "qcobjects --help",
+        "tree": "tree -d --gitignore"
+    },
+    "repository": {},
+    "keywords": [
+        "qcobjects-handler",
+        "qcobjects-api",
+        "qcobjects",
+        "js",
+        "javascript"
+    ],
+    "author": "Jean Machuca (correojean@gmail.com)",
+    "license": "LGPL-3.0-or-later",
+    "devDependencies": {
+        "@types/qcobjects": "github:QCObjects/-types-qcobjects",
+        "@types/qcobjects-api": "github:QCObjects/-types-qcobjects-api",
+        "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
+        "@typescript-eslint/eslint-plugin": "^5.59.0",
+        "@typescript-eslint/parser": "^5.58.0",
+        "eslint": "^8.39.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-config-qcobjects": "^0.0.26",
+        "eslint-config-qcobjects-typescript": "^2.4.5",
+        "eslint-config-semistandard": "^17.0.0",
+        "eslint-config-standard": "^17.0.0",
+        "eslint-config-standard-with-typescript": "^34.0.1",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-n": "^15.7.0",
+        "eslint-plugin-promise": "^6.1.1",
+        "hint": "^2.0.0",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.1",
+        "npm-run-all": "^4.1.5",
+        "qcobjects": "^2.4.95",
+        "qcobjects-cli": "^2.4.65",
+        "qcobjects-command-publish-static": "^1.0.2",
+        "qcobjects-sdk": "^2.4.64",
+        "qcobjects-tsconfig": "^2.4.10",
+        "semistandard": "^16.0.1",
+        "typescript": "^5.6.2"
+    },
+    "peerDependencies": {
+        "qcobjects": "^2.4.95",
+        "qcobjects-sdk": "^2.4.64"
+    },
+    "engines": {
+        "npm": ">=8",
+        "node": ">=16"
+    },
+    "lint-staged": {
+        "**/*": "prettier --write --ignore-unknown"
+    }
+}
