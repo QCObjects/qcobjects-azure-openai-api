@@ -1,1 +1,1 @@
-declare module "qcobjects-openai-api/components";
+declare module "qcobjects-azure-openai-api/components";
