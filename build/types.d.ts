@@ -29,7 +29,7 @@ declare module "js/packages/serviceLoaderNode" {
     }>;
     export default serviceLoaderNode;
 }
-declare module "js/packages/com.qcobjects.api.services" {
+declare module "js/packages/com.qcobjects.api.services.azure" {
     import { BackendMicroservice } from "qcobjects";
     class OpenAIAPI extends BackendMicroservice {
         post(formData?: object | string): void;
@@ -37,8 +37,8 @@ declare module "js/packages/com.qcobjects.api.services" {
     export default OpenAIAPI;
 }
 declare module "js/package" {
-    import OpenAIAPI from "js/packages/com.qcobjects.api.services";
-    export default OpenAIAPI;
+    import AzureOpenAIAPI from "js/packages/com.qcobjects.api.services.azure";
+    export default AzureOpenAIAPI;
 }
 declare module "js/index" {
     import "js/config";

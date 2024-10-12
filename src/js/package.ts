@@ -1,9 +1,9 @@
 import { Package } from "qcobjects";
-import OpenAIAPI from "./packages/com.qcobjects.api.services";
+import AzureOpenAIAPI from "./packages/com.qcobjects.api.services.azure";
 
-Package("qcobjects-openai-api", 
-Package("com.qcobjects.api.services.openai",[
-    OpenAIAPI
+Package("qcobjects-azure-openai-api", 
+Package("com.qcobjects.api.services.azure.openai",[
+    AzureOpenAIAPI
 ]) as Array<never>);
 
-export default OpenAIAPI;
+export default AzureOpenAIAPI;
