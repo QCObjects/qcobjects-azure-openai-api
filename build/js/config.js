@@ -15,7 +15,7 @@ backend.routes.push({
     name: "QCObjects Open AI API Proxy",
     description: "This endpoint returns same response like if you were calling to OpenAI API",
     path: "^/api/openai$",
-    microservice: "qcobjects-openai-api",
+    microservice: "qcobjects-azure-openai-api",
     headers: {
         "content-type": "text/html; charset=utf-8"
     },
