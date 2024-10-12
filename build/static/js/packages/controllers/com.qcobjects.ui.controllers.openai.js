@@ -37,9 +37,20 @@ class ChatbotController extends qcobjects_1.Controller {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "model": "gpt-4o-mini",
-                "messages": [{ "role": "user", "content": userMessage }],
-                "temperature": 0.7
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": userMessage
+                            }
+                        ]
+                    }
+                ],
+                "temperature": 0.7,
+                "top_p": 0.95,
+                "max_tokens": 800
             })
         });
         try {

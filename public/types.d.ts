@@ -13,7 +13,7 @@ declare module "js/packages/client_services/com.qcobjects.api.client.services" {
         method: string;
         headers: {
             "Content-Type": string;
-            Authorization: string;
+            "api-key": string;
         };
         data: {};
         withCredentials: boolean;
