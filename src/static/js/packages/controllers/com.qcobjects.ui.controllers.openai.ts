@@ -67,7 +67,7 @@ export class ChatbotController extends Controller {
             if (typeof data.error !== "undefined"){
                 botMessage.textContent = data.error.message;
             } else {
-                botMessage.textContent = data.choices[0].text.trim();
+                botMessage.textContent = data.choices[0].message.content.trim();
             }
         } catch (e) {
             console.error(e);

@@ -59,7 +59,7 @@ class ChatbotController extends qcobjects_1.Controller {
                 botMessage.textContent = data.error.message;
             }
             else {
-                botMessage.textContent = data.choices[0].text.trim();
+                botMessage.textContent = data.choices[0].message.content.trim();
             }
         }
         catch (e) {
