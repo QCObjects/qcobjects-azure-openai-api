@@ -47,6 +47,7 @@ declare module "js/index" {
 }
 declare module "static/js/packages/controllers/com.qcobjects.ui.controllers.openai" {
     import { Controller, ControllerParams } from "qcobjects";
+    import "highlight.js/styles/default.css";
     export class ChatbotController extends Controller {
         chatMessages: any;
         userInput: any;
@@ -58,14 +59,16 @@ declare module "static/js/packages/controllers/com.qcobjects.ui.controllers.open
     }
 }
 declare module "static/js/packages/components/com.qcobjects.ui.components.openai" {
-    import { Component } from "qcobjects";
+    import { Component, ComponentDoneResponse } from "qcobjects";
     export class ChatBotComponent extends Component {
         tplsource: string;
         shadowed: boolean;
         template: string;
+        done(standardResponse: ComponentDoneResponse): Promise<ComponentDoneResponse>;
     }
     export const chatbotComponent: ChatBotComponent;
     export function sendMessage(): void;
+    export function sendIfEnterKey(event: KeyboardEvent): void;
     export function closeChatbot(): void;
 }
 declare module "static/js/packages/components/index" {

@@ -1,4 +1,21 @@
 import {  Controller, ControllerParams } from "qcobjects";
+import MarkdownIt from "markdown-it";
+import hljs from "highlight.js";
+import "highlight.js/styles/default.css";
+
+const md = MarkdownIt({
+    highlight (str, lang):string {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return "<pre><code class=\"hljs\">" +
+                 hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+                 "</code></pre>";
+        } catch (__) {}
+      }
+  
+      return "<pre><code class=\"hljs\">" + md.utils.escapeHtml(str) + "</code></pre>";
+    }
+  });
 
 export class ChatbotController extends Controller {
     chatMessages: any;
@@ -67,7 +84,12 @@ export class ChatbotController extends Controller {
             if (typeof data.error !== "undefined"){
                 botMessage.textContent = data.error.message;
             } else {
-                botMessage.textContent = data.choices[0].message.content.trim();
+                const markdownText = data.choices[0].message.content.trim();
+                const result = md.render(markdownText);
+                botMessage.innerHTML = `<div class="content">${result}</div>`;
+                botMessage.querySelectorAll("pre code").forEach((block) => {
+                    hljs.highlightElement(block as HTMLElement);
+                });
             }
         } catch (e) {
             console.error(e);

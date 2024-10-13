@@ -52,6 +52,7 @@
     "author": "Jean Machuca (correojean@gmail.com)",
     "license": "LGPL-3.0-or-later",
     "devDependencies": {
+        "@types/markdown-it": "^14.1.2",
         "@types/qcobjects": "github:QCObjects/-types-qcobjects",
         "@types/qcobjects-api": "github:QCObjects/-types-qcobjects-api",
         "@types/qcobjects-sdk": "github:QCObjects/-types-qcobjects-sdk",
@@ -93,6 +94,9 @@
     "dependencies": {
         "@azure/identity": "^4.4.1",
         "dotenv": "^16.4.5",
+        "highlight.js": "^11.10.0",
+        "markdown-it": "^14.1.0",
+        "markdown-it-highlightjs": "^4.2.0",
         "openai": "^4.67.3"
     }
 }

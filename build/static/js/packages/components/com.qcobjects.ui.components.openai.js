@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chatbotComponent = exports.ChatBotComponent = void 0;
 exports.sendMessage = sendMessage;
+exports.sendIfEnterKey = sendIfEnterKey;
 exports.closeChatbot = closeChatbot;
 const qcobjects_1 = require("qcobjects");
 const com_qcobjects_ui_controllers_openai_1 = require("../controllers/com.qcobjects.ui.controllers.openai");
@@ -12,6 +13,71 @@ class ChatBotComponent extends qcobjects_1.Component {
         this.shadowed = true;
         this.template = `
     <style>
+
+        pre code.hljs {
+        display: block;
+        overflow-x: auto;
+        padding: 1em
+        }
+        code.hljs {
+        padding: 3px 5px
+        }
+        /*
+
+        Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+        */
+        .hljs {
+        color: #ddd;
+        background: #303030
+        }
+        .hljs-keyword,
+        .hljs-selector-tag,
+        .hljs-literal,
+        .hljs-section,
+        .hljs-link {
+        color: white
+        }
+        .hljs-subst {
+        /* default */
+
+        }
+        .hljs-string,
+        .hljs-title,
+        .hljs-name,
+        .hljs-type,
+        .hljs-attribute,
+        .hljs-symbol,
+        .hljs-bullet,
+        .hljs-built_in,
+        .hljs-addition,
+        .hljs-variable,
+        .hljs-template-tag,
+        .hljs-template-variable {
+        color: #d88
+        }
+        .hljs-comment,
+        .hljs-quote,
+        .hljs-deletion,
+        .hljs-meta {
+        color: #979797
+        }
+        .hljs-keyword,
+        .hljs-selector-tag,
+        .hljs-literal,
+        .hljs-title,
+        .hljs-section,
+        .hljs-doctag,
+        .hljs-type,
+        .hljs-name,
+        .hljs-strong {
+        font-weight: bold
+        }
+        .hljs-emphasis {
+        font-style: italic
+        }
+
+
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #e5ddd5;
@@ -27,7 +93,7 @@ class ChatBotComponent extends qcobjects_1.Component {
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            overflow: hidden;
+            overflow: scroll;
             display: flex;
             flex-direction: column;
             bottom: 0;
@@ -48,15 +114,19 @@ class ChatBotComponent extends qcobjects_1.Component {
         .chat-messages {
             padding: 15px;
             flex: 1;
-            overflow-y: auto;
+            overflow-y: scroll;
             display: flex;
             flex-direction: column;
             background-color: #e5ddd5;
-            justify-content: flex-end;
+            padding-bottom: 100px;
+            padding-top: 100px;
         }
         .chat-input {
+            width: 100%;
+            position: fixed;
             display: flex;
             border-top: 1px solid #ddd;
+            bottom:0;
         }
         .chat-input input {
             flex: 1;
@@ -110,7 +180,10 @@ class ChatBotComponent extends qcobjects_1.Component {
             border-radius: 50%;
             padding: 12px;
         }
-        
+        .content {
+            overflow:auto;
+        }
+
 
     </style>
 
@@ -127,6 +200,13 @@ class ChatBotComponent extends qcobjects_1.Component {
         </div>
     `;
     }
+    done(standardResponse) {
+        const userInput = this.shadowRoot?.subelements("#user-input").pop();
+        userInput?.addEventListener("keyup", (event) => {
+            sendIfEnterKey(event);
+        });
+        return super.done(standardResponse);
+    }
 }
 exports.ChatBotComponent = ChatBotComponent;
 exports.chatbotComponent = new ChatBotComponent({ name: "chatbot" });
@@ -135,6 +215,11 @@ function sendMessage() {
     const chatbot = exports.chatbotComponent.controller;
     chatbot.sendMessage();
 }
+function sendIfEnterKey(event) {
+    if (typeof event.key !== "undefined" && event.key === "Enter") {
+        sendMessage();
+    }
+}
 function closeChatbot() {
     exports.chatbotComponent.controller = new com_qcobjects_ui_controllers_openai_1.ChatbotController({ component: exports.chatbotComponent });
     const chatbot = exports.chatbotComponent.controller;
@@ -142,3 +227,4 @@ function closeChatbot() {
 }
 qcobjects_1.global.set("chatbotSendMessage", sendMessage);
 qcobjects_1.global.set("closeChatbot", closeChatbot);
+qcobjects_1.global.set("sendIfEnterKey", sendIfEnterKey);

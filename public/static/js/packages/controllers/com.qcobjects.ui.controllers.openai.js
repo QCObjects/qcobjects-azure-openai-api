@@ -1,7 +1,26 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatbotController = void 0;
 const qcobjects_1 = require("qcobjects");
+const markdown_it_1 = __importDefault(require("markdown-it"));
+const highlight_js_1 = __importDefault(require("highlight.js"));
+require("highlight.js/styles/default.css");
+const md = (0, markdown_it_1.default)({
+    highlight(str, lang) {
+        if (lang && highlight_js_1.default.getLanguage(lang)) {
+            try {
+                return "<pre><code class=\"hljs\">" +
+                    highlight_js_1.default.highlight(str, { language: lang, ignoreIllegals: true }).value +
+                    "</code></pre>";
+            }
+            catch (__) { }
+        }
+        return "<pre><code class=\"hljs\">" + md.utils.escapeHtml(str) + "</code></pre>";
+    }
+});
 class ChatbotController extends qcobjects_1.Controller {
     constructor(controllerParams) {
         super(controllerParams);
@@ -59,7 +78,12 @@ class ChatbotController extends qcobjects_1.Controller {
                 botMessage.textContent = data.error.message;
             }
             else {
-                botMessage.textContent = data.choices[0].message.content.trim();
+                const markdownText = data.choices[0].message.content.trim();
+                const result = md.render(markdownText);
+                botMessage.innerHTML = `<div class="content">${result}</div>`;
+                botMessage.querySelectorAll("pre code").forEach((block) => {
+                    highlight_js_1.default.highlightElement(block);
+                });
             }
         }
         catch (e) {
