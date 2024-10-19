@@ -1,7 +1,7 @@
 {
     "name": "qcobjects-azure-openai-api",
     "private": false,
-    "version": "1.0.20",
+    "version": "1.0.22",
     "description": "QCObjects OpenAI API Handler",
     "main": "public/js/index.cjs",
     "module": "public/js/index.mjs",
